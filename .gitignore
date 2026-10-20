@@ -134,6 +134,10 @@ packages/studio/data/
 !.claude/skills/revideo-motion-canvas
 !.claude/skills/whisper-transcribe
 !.claude/skills/video-toolkit
+!.claude/skills/animated-maps
+!.claude/skills/icon-libraries
+!.claude/skills/flowchart-diagrams
+!.claude/skills/hand-drawn-style
 # Published skills from skills/, symlinked so the agent auto-discovers them in-repo
 !.claude/skills/embedded-captions
 !.claude/skills/faceless-explainer
@@ -171,6 +175,10 @@ packages/studio/data/
 !.agents/skills/revideo-motion-canvas
 !.agents/skills/whisper-transcribe
 !.agents/skills/video-toolkit
+!.agents/skills/animated-maps
+!.agents/skills/icon-libraries
+!.agents/skills/flowchart-diagrams
+!.agents/skills/hand-drawn-style
 # Published skills from skills/, symlinked so the agent auto-discovers them in-repo
 !.agents/skills/embedded-captions
 !.agents/skills/faceless-explainer

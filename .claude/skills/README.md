@@ -25,6 +25,14 @@ verified in a cloud session:
 - `whisper-transcribe` — faster-whisper / `hyperframes transcribe` word timings
   for captions and word-synced reveals (model download needs huggingface.co).
 
+Visual skills that generate animatable SVG at authoring time (each ships its
+generator in `scripts/`):
+
+- `animated-maps` — d3-geo + Natural Earth maps: countries, points, routes.
+- `icon-libraries` — Lucide / Tabler / Phosphor inline icons with draw-on.
+- `flowchart-diagrams` — Mermaid text → themed, node-by-node animated SVG.
+- `hand-drawn-style` — Rough.js sketch shapes that draw themselves on.
+
 They are real directories (not links) and mirror byte-for-byte between
 `.claude/skills/` and `.agents/skills/`.
 
