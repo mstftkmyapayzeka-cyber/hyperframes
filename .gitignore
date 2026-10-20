@@ -130,6 +130,10 @@ packages/studio/data/
 !.claude/skills/seam-craft
 !.claude/skills/captions-overlay
 !.claude/skills/oversized-cursor
+!.claude/skills/manim-video
+!.claude/skills/revideo-motion-canvas
+!.claude/skills/whisper-transcribe
+!.claude/skills/video-toolkit
 # Published skills from skills/, symlinked so the agent auto-discovers them in-repo
 !.claude/skills/embedded-captions
 !.claude/skills/faceless-explainer
@@ -163,6 +167,10 @@ packages/studio/data/
 !.agents/skills/seam-craft
 !.agents/skills/captions-overlay
 !.agents/skills/oversized-cursor
+!.agents/skills/manim-video
+!.agents/skills/revideo-motion-canvas
+!.agents/skills/whisper-transcribe
+!.agents/skills/video-toolkit
 # Published skills from skills/, symlinked so the agent auto-discovers them in-repo
 !.agents/skills/embedded-captions
 !.agents/skills/faceless-explainer

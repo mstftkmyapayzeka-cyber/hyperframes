@@ -13,6 +13,21 @@ separate namespaces, on purpose:
   projects via `npx hyperframes skills` or `npx skills add
 heygen-com/hyperframes`.
 
+## Video engine skills (repo-native)
+
+Four skills extend the video workflows with external open-source engines, each
+verified in a cloud session:
+
+- `video-toolkit` — the playbook: which engine to use per beat, the
+  per-scene narration (ElevenLabs upload) workflow, and cloud-environment fixes.
+- `manim-video` — Manim Community clips (diagram/graph morphs) as MP4 or alpha WebM.
+- `revideo-motion-canvas` — Motion Canvas scenes rendered headlessly by Revideo.
+- `whisper-transcribe` — faster-whisper / `hyperframes transcribe` word timings
+  for captions and word-synced reveals (model download needs huggingface.co).
+
+They are real directories (not links) and mirror byte-for-byte between
+`.claude/skills/` and `.agents/skills/`.
+
 ## Published skills (symlinked)
 
 The 21 marketplace skills under `skills/` are also symlinked here
