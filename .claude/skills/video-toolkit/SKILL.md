@@ -20,6 +20,10 @@ below produce _clips_ that HyperFrames places on its timeline.
 | procedural vector animation authored as TS generators (node graphs, code walkthroughs) | Motion Canvas API rendered by Revideo                      | `revideo-motion-canvas`                       |
 | captions, subtitles, word-synced reveals from a voice file                             | Whisper (faster-whisper / `hyperframes transcribe`)        | `whisper-transcribe`                          |
 | named looks, charts, maps, glitch, grain, transitions                                  | HyperFrames registry (`npx hyperframes catalog --query …`) | `/hyperframes-registry`                       |
+| countries, cities, routes, regions — any "where"                                       | d3-geo + Natural Earth map SVG, animated with GSAP         | `animated-maps`                               |
+| pictograms for lists, cards, steps, concepts                                           | Lucide / Tabler / Phosphor inline SVG icons                | `icon-libraries`                              |
+| a process, causal chain, decision tree, timeline from text                             | Mermaid → themed SVG, nodes revealed in order              | `flowchart-diagrams`                          |
+| a warm whiteboard / notebook look, circling or underlining                             | Rough.js sketch SVG that draws itself on                   | `hand-drawn-style`                            |
 
 Use an engine only where it clearly beats GSAP; one or two Manim/Revideo beats
 per film is typical. Keep the palette and fonts from `frame.md` in every clip.
