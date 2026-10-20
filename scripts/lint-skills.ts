@@ -509,10 +509,17 @@ export function lintDocRefs(filePath: string, content: string): LineViolation[] 
     .flatMap((ref) => checkDocRef(ref, filePath, content) ?? []);
 }
 
+/**
+ * Markdown files under `dir`, skipping any reached through a symlink: the
+ * `.claude/skills/<name>` → `skills/<name>` aliases are linted at their real
+ * path, and relative refs would wrongly resolve from the link's location.
+ */
 function collectMarkdownFiles(dir: string): string[] {
+  const realDir = realpathSync(dir);
   return readdirSync(dir, { withFileTypes: true, recursive: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
-    .map((entry) => join(entry.parentPath, entry.name));
+    .map((entry) => join(entry.parentPath, entry.name))
+    .filter((path) => realpathSync(path) === join(realDir, relative(dir, path)));
 }
 
 function lintFile(filePath: string): Violation[] {

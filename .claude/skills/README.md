@@ -13,6 +13,27 @@ manifested by `.claude-plugin/`). Two separate namespaces, on purpose:
 
 > **Warning:** Never run `npx skills add ... --all` from inside a HyperFrames checkout: it selects the OpenClaw target, whose `skills/` directory is the repo's own `skills/`, and removes each existing `skills/<name>` destination before linking. A fresh clone restores tracked source, but uncommitted work under `skills/` does not recover. Run it from an empty directory or from your own project root. This happens regardless of `metadata.internal`.
 
+## Published skills (symlinked)
+
+The 21 marketplace skills under `skills/` are also symlinked here
+(`<name>` → `../../skills/<name>`), so Claude Code auto-discovers the full
+HyperFrames set when this repo is the working directory — including cloud
+sessions, which load project skills but not plugins. `skills/` stays the
+single source of truth; edit there, never through the link.
+
+When you add or remove a published skill, update the links in both
+`.claude/skills/` and `.agents/skills/` and the matching `!…` allowlist
+entries in `.gitignore`:
+
+```bash
+for d in skills/*/; do n=$(basename "$d"); [ -f "$d/SKILL.md" ] || continue
+  for base in .claude .agents; do ln -sfn "../../skills/$n" "$base/skills/$n"; done
+done
+```
+
+`scripts/lint-skills.ts` skips the links (the targets are linted under
+`skills/`).
+
 ## Weekly changelog video
 
 The `changelog-video` skill turns a weekly changelog markdown into a
