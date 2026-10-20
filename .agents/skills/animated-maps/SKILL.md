@@ -47,9 +47,13 @@ node $HF_SKILLS/animated-maps/scripts/make-map.mjs map.json assets/maps/middle-e
 - Frame a set of countries with `"fit": ["Turkey", "Israel"]` instead of
   center/scale. Country names are Natural Earth English names
   (`"United States of America"`, `"Turkey"`, `"Israel"`, `"Iran"`…).
-- `resolution`: `110m` (world views, ~300 KB) or `50m` (regional close-ups,
-  ~2 MB — use only when zoomed in).
-- Labels are SVG text in Barlow; Turkish letters work (verified with Kudüs).
+- `resolution`: `110m` (world views) or `50m` (regional close-ups — use only when
+  zoomed in). The script clips every path to the frame (plus a 5 % margin) and rounds
+  coordinates to one decimal (`digits`), so a regional 50m map is ~100–150 KB instead
+  of ~1.7 MB; pass `"keepOffscreen": true` if you plan to pan far outside the frame.
+- Labels are SVG text in `font` (default Barlow); Turkish letters work (verified with
+  Kudüs). Per point: `r` (0 = label only, e.g. a country name), `size`, `color`,
+  `labelColor`, and `dx`/`dy` to nudge a label that collides with a neighbour.
 
 ## What the SVG contains
 

@@ -41,7 +41,7 @@ writeFileSync(
 writeFileSync(
   join(dir, "cfg.json"),
   JSON.stringify({
-    theme: opt("theme", "dark") === "dark" ? "base" : "default",
+    theme: "base",
     flowchart: {
       htmlLabels: false,
       curve: "basis",
@@ -67,7 +67,21 @@ writeFileSync(
             clusterBorder: "#555",
             edgeLabelBackground: "#111111",
           }
-        : { fontFamily: font, fontSize: "26px" },
+        : {
+            // light / academic: white nodes on paper, ink text, accent links
+            fontFamily: font,
+            fontSize: "26px",
+            background: "transparent",
+            primaryColor: opt("surface", "#FFFFFF"),
+            primaryTextColor: opt("ink", "#1C2633"),
+            primaryBorderColor: opt("border", "#23466E"),
+            lineColor: accent,
+            secondaryColor: opt("surface", "#FFFFFF"),
+            tertiaryColor: opt("surface", "#FFFFFF"),
+            clusterBkg: "transparent",
+            clusterBorder: "#CDBFA4",
+            edgeLabelBackground: opt("paper", "#F4EEE2"),
+          },
   }),
 );
 const pkgDir = (require.resolve.paths("@mermaid-js/mermaid-cli") ?? [])
@@ -126,5 +140,9 @@ if (vb) {
     `<svg width="${Math.round(w + 2 * pad)}" height="${Math.round(h + 2 * pad)}"`,
   );
 }
+// Labels are HTML <p> inside foreignObject: zero the browser's default paragraph margin, or every
+// label sits ~1em low and its last line is clipped by the node box.
+const sid = (svg.match(/<svg[^>]*\sid="([^"]+)"/) ?? [])[1];
+if (sid) svg = svg.replace("<style>", `<style>#${sid} foreignObject p{margin:0;}`);
 writeFileSync(out, svg);
 console.log(`diagram → ${out}`);
