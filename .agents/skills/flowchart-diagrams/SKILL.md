@@ -45,7 +45,19 @@ node $HF_SKILLS/flowchart-diagrams/scripts/make-diagram.mjs chain.mmd assets/dia
 - The script pads the viewBox (`--pad`, default 48) because Mermaid's own bounds can
   crop node tops, removes the inline `max-width`, and writes width/height so CSS
   can size it (`#wrap svg { width: 1700px; height: auto }`).
-- Labels are SVG text (no `foreignObject`), so they scale crisply.
+- `--theme light` gives an academic / print look: white nodes, ink text and an
+  accent border on a transparent ground (`--surface`, `--ink`, `--border` override it);
+  the default `dark` theme suits dark films.
+- Flowchart labels are HTML inside `foreignObject`. The script zeroes the browser's
+  default `<p>` margin; without that every label sits ~1em low and its last line is
+  clipped by the node box.
+- Mermaid measures labels with the font it can find **at render time**. Pass a font
+  that is installed on the system (or loaded with `--fonts`) and use the same family
+  in the frame; a fallback font at measuring time means clipped or overflowing labels.
+- Never style `div` globally in the frame or preview page (`div { … }`): it reaches the
+  labels inside `foreignObject` and breaks their layout. Scope frame CSS to ids/classes.
+- A wide `flowchart LR` with edge labels gets tiny once fitted to 1920 px; switch to
+  `flowchart TD` and place it beside the text when it has more than four nodes.
 
 ## Animate
 

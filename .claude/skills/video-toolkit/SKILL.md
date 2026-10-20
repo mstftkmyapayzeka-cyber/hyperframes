@@ -53,8 +53,9 @@ per film is typical. Keep the palette and fonts from `frame.md` in every clip.
   woff2 files to `assets/fonts/` and declare both subsets with their
   `unicode-range` in each frame (latin-ext carries ş ğ İ ı for Turkish).
 - **Seam flash:** after assembling, make sure the index `#root` background is the
-  film's dark ground (e.g. `#111111`). A light `canvas` token there flashes one
-  bright frame at every transition; scan renders with an ffmpeg luma check.
+  film's own ground — `#111111` for a dark film, the paper colour (e.g. `#F4EEE2`)
+  for a cream/academic one. Any mismatch flashes one frame at every transition;
+  scan renders with an ffmpeg luma check.
 - **Element ids must start with a letter** (`f01-…`), not the frame id's digits.
 - **Background art** can be animated line art drawn in SVG/CSS (globe, strata,
   orbits, networks, archive sheets, outlined keywords) — give outlined text a

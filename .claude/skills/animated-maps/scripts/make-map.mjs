@@ -4,7 +4,7 @@
 // spec: { width, height, projection: "naturalEarth1"|"mercator"|"orthographic"|"equalEarth",
 //         rotate?: [lon,lat], center?: [lon,lat], scale?, fit?: ["Turkey","Israel"] (country names to frame),
 //         resolution?: "110m"|"50m", highlight?: {"Turkey":"#E85D26"}, land?: "#2a2a27", border?: "#555",
-//         points?: [{id,lon,lat,label}], arcs?: [{id,from:[lon,lat],to:[lon,lat],bend?:0.25}], graticule?: true }
+//         points?: [{id,lon,lat,label,dx?,dy?,r?,size?}], arcs?: [{id,from:[lon,lat],to:[lon,lat],bend?:0.25}], graticule?: true }
 import { readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
@@ -52,7 +52,15 @@ if (spec.fit) {
   if (spec.center) proj.center(spec.center);
   proj.scale(spec.scale ?? W / 5.6).translate([W / 2, H / 2]);
 }
+// Clip to the frame (plus a margin) and round coordinates: regional 50m maps drop from ~1.7 MB to a few
+// hundred KB, and countries far off-frame (or wrapping round the antimeridian) no longer bloat the file.
+if (spec.keepOffscreen !== true)
+  proj.clipExtent([
+    [-W * 0.05, -H * 0.05],
+    [W * 1.05, H * 1.05],
+  ]);
 const path = d3.geoPath(proj);
+if (typeof path.digits === "function") path.digits(spec.digits ?? 1);
 const slug = (s) =>
   s
     .toLowerCase()
@@ -68,6 +76,13 @@ if (spec.projection === "orthographic")
   out += `<path class="map-sphere" d="${path({ type: "Sphere" })}" fill="none" stroke="${border}" stroke-width="1.5"/>\n`;
 out += `<g class="map-countries">\n`;
 for (const f of countries) {
+  // Skip countries entirely outside the frame: regional 50m maps shrink from ~2 MB to a few hundred KB.
+  const [[bx0, by0], [bx1, by1]] = path.bounds(f);
+  if (
+    spec.keepOffscreen !== true &&
+    (bx1 < -W * 0.05 || bx0 > W * 1.05 || by1 < -H * 0.05 || by0 > H * 1.05)
+  )
+    continue;
   const d = path(f);
   if (!d) continue;
   const name = f.properties.name,
@@ -93,7 +108,7 @@ for (const p of spec.points ?? []) {
   out +=
     `<g id="pt-${p.id}" class="map-point" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle r="${p.r ?? 9}" fill="${p.color ?? "#E85D26"}"/>` +
     (p.label
-      ? `<text x="16" y="7" font-family="Barlow, sans-serif" font-size="${p.size ?? 30}" font-weight="700" fill="${p.labelColor ?? "#F0ECE5"}">${p.label}</text>`
+      ? `<text x="${p.dx ?? 16}" y="${p.dy ?? 7}" font-family="${spec.font ?? "Barlow, sans-serif"}" font-size="${p.size ?? 30}" font-weight="700" fill="${p.labelColor ?? "#F0ECE5"}">${p.label}</text>`
       : "") +
     `</g>\n`;
 }
